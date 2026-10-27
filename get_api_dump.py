@@ -10,12 +10,11 @@ def query_pokemon(id):
     print(f"{request} : fetched data for {pokemon_json["name"]} (dex #{pokemon_json["id"]})")
     return pokemon_json
 
-def get_dex(start = 1, end = None):
-    end = start + 1 if not end else end + 1
+def dump_pokemons(ids:list = [1]):
 
     api_dump = []
     try:
-        for id in range(start, end):
+        for id in ids:
             pokemon = query_pokemon(id=id)
             api_dump.append(pokemon)
             time.sleep(SELF_RATE_LIMIT)
