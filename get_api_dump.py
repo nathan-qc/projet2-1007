@@ -4,15 +4,15 @@ BASE_URL = "https://pokeapi.co/api/v2/"
 SELF_RATE_LIMIT = 0.1
 OUTPUT_FILEPATH = "api_dump.json"
 
-def query_pokemon(id:int)->dict:
+def query_pokemon(id: int) -> dict:
     """Fetch un pokémon de PokéAPI par son id
     """
     request = requests.get(f"{BASE_URL}pokemon/{id}")
     pokemon_dict = request.json()
-    print(f"{request} : fetched data for {pokemon_dict["name"]} (dex #{pokemon_dict["id"]})")
+    print(f"{request} : fetched data for {pokemon_dict['name']} (dex #{pokemon_dict['id']})")
     return pokemon_dict
 
-def dump_pokemons(ids:list = [1])->None:
+def dump_pokemons(ids: list = []) -> None:
     """Écrit à un .json une liste de dict de pokémon
     """
 
