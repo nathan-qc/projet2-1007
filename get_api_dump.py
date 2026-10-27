@@ -5,7 +5,7 @@ SELF_RATE_LIMIT = 0.01
 OUTPUT_FILEPATH = "api_dump.json"
 
 def query_pokemon(id):
-    request = requests.get(f"{BASE_URL}pokemon/{str(id)}")
+    request = requests.get(f"{BASE_URL}pokemon/{id}")
     pokemon_json = request.json()
     print(f"{request} : fetched data for {pokemon_json["name"]} (dex #{pokemon_json["id"]})")
     return pokemon_json
