@@ -6,6 +6,8 @@ Nous avons tiré nos informations comme suit: pour le URL "https://pokeapi.co/ap
 - Pour lycanroc-midday dans le pokédex "normal", il-y-a lycanroc-dusk dans l'ensemble des formes
 - Pour pikachu dans le pokédex "normal", il-y-a pikachu-rock-star dans l'ensembles des formes
 
+Pour les attaques, qu'on appelera "moves", l'URL est plutot "https://pokeapi.co/api/v2/move/[ID_HERE]". Nous avons pris tous les moves de ID 1 à 919, ce qui représente l'integralité des moves du jeu.
+
 Dans le cas de Lycanroc, ce pokémon a une "forme" midday et dusk. Ces formes ont des abilités différentes, ce qui constitue assez pour que Smogon les considère uniques (même s'ils sont dans le même usage tier au final). Pour Pikachu, Pikachu Rock Star est une forme spéciale qui apprends un seul move que Pikachu n'apprends pas normalement. Cependant, ce Pokémon n'existe pas dans SV. On doit donc faire un travail de vérification manuelle avec les données obtenues entre les ID 10000 et 100326 pour s'assurer qu'on n'inclus pas des pokémons qui n'existent pas dans SV. Un exemple est les mega-evolutions, qui n'existent pas dans SV.
 
 Sur le sujet des pokémon qui n'existent pas dans SV, certains de pokémon dans le pokédex "normal" ne sont pas dans SV, par exemple Togekiss (id 468). Nous devrons enlever ces pokémon.
