@@ -1,15 +1,19 @@
-import json, os
-
-INPUT_FILEPATH = "test.json"
+import json, os, csv
 
 with open(os.path.join(os.getcwd(), "raw_data", "moves.json"), "r", encoding="utf-8") as f:
-    MOVES = json.load(f)
+    MOVES: dict = json.load(f)
 
 with open(os.path.join(os.getcwd(), "raw_data", "0001-1025.json"), "r", encoding="utf-8") as f:
-    DEX = json.load(f)
+    DEX: dict = json.load(f)
 
 with open(os.path.join(os.getcwd(), "raw_data", "10001-10326.json"), "r", encoding="utf-8") as f:
     DEX += json.load(f)
+
+with open(os.path.join(os.getcwd(), "raw_data", "tiers.csv"), "r", encoding="utf-8") as f:
+    r = csv.reader(f)
+    next(r)             # éliminer l'en-tête
+    TIERS = dict(r)
+
 
 def build_row(mon):
     # Pour notre propre usage, ne sera pas traité par le modèle
@@ -56,8 +60,19 @@ def build_row(mon):
                 break
 
     # On aura des types répétés, donc on fait un set avant de get le nombre de types uniques
-    coverage = len(set(coverage))
+    coverage_count = len(set(coverage))
 
-    print(coverage, max_power, n_status_moves)
+    return (name, dex_id, type_1, type_2, hit_points, attack, defense, special_attack, special_defense, speed, coverage_count, max_power, n_status_moves)
 
-row = build_row(DEX[0])
+dataset = list()
+
+for mon in DEX:
+    
+    if mon["name"] in TIERS:
+        row = build_row(mon) + (TIERS[mon["name"]],)
+        dataset.append(row)
+
+with open(os.path.join(os.getcwd(), "dataset.csv"), "w", encoding="utf-8") as f:
+    w = csv.writer(f)
+    w.writerow(("name", "id", "type_1", "type_2", "hp", "atk", "def", "spa", "spd", "spe", "coverage", "power", "status", "tier"))
+    w.writerows(dataset)
