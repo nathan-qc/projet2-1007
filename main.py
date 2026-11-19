@@ -52,6 +52,19 @@ with gr.Blocks() as demo:
         with gr.Column():
             output = gr.Textbox(label="Tier Smogon")
             predict_button = gr.Button("Prédire tier Smogon")
-            predict_button.click(fn=predict_button_clicked, inputs=[id, type_1, type_2, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status], outputs=output, api_name="predict_tier")
+            predict_button.click(fn=predict_button_clicked, outputs=output, api_name="predict_tier", inputs=[
+                id,
+                type_1,
+                type_2,
+                hp,
+                attack,
+                defense,
+                special_attack,
+                special_defense,
+                speed,
+                coverage,
+                power,
+                status
+            ])
 
 demo.launch(theme="monochrome")
