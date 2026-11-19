@@ -1,13 +1,41 @@
 import gradio as gr
-import csv
+import os, pandas
+
+# Adapté à partir de l'exemple fourni dans https://www.w3schools.com/css/css_grid.asp
+STYLE = '''
+<style>
+    .pokecontainer {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+    }
+    .pokecontainer div {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    font-style: italic;
+    }
+    .subtitle {
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    }
+</style>
+'''
+
+tiermates_html = ""
+
+with open(os.path.join("donnees", "dataset.csv"), "r", encoding="utf-8") as f:
+    dataset = pandas.read_csv(f)
 
 def predict_button_clicked(id, type_1, type_2, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status):
     type_1 = types[type_1]
     type_2 = types[type_2]
 
-    tier = "Ubers" # Put the model function here
+    tier = "ou" # Put the model function here
 
-    return tier
+    return tier.upper()
 
 types = {
     "Aucun": "none",
@@ -50,7 +78,7 @@ with gr.Blocks() as demo:
             special_defense = gr.Slider(label="Defense spéciale", step=1, maximum=255)
             speed = gr.Slider(label="Vitesse", step=1, maximum=255)
         with gr.Column():
-            output = gr.Textbox(label="Tier Smogon")
+            output = gr.Textbox(label="Tier Smogon", interactive=False)
             predict_button = gr.Button("Prédire tier Smogon")
             predict_button.click(fn=predict_button_clicked, outputs=output, api_name="predict_tier", inputs=[
                 id,
@@ -66,5 +94,28 @@ with gr.Blocks() as demo:
                 power,
                 status
             ])
+            @gr.render(inputs=output)
+            def show_tiermates(tier):
+                if tier != "":
+                    tiermates_dataframe = dataset[dataset["tier"] == tier.lower()].sample(n=3)
+                    id_1, id_2, id_3 = [id for id in tiermates_dataframe["id"]]
+                    name_1, name_2, name_3 = [name.replace("-", " ").title() for name in tiermates_dataframe["name"]]
+                
+                    # Adapté à partir de l'exemple fourni dans https://www.w3schools.com/css/css_grid.asp
+                    tiermates_html = f'''
+                    <html>
+                        {STYLE}
+                        <div class="subtitle">Voici quelques exemples de Pokémon dans SV {tier}</div>
+                        <div class="pokecontainer">
+                            <div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/{id_1}.png" width="100" height="100"></div>
+                            <div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/{id_2}.png" width="100" height="100"></div>
+                            <div><img src="https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/{id_3}.png" width="100" height="100"></div>
+                            <div>{name_1}</div>
+                            <div>{name_2}</div>
+                            <div>{name_3}</div>
+                        </div>
+                    </html>
+                    '''
+                    gr.HTML(tiermates_html)
 
-demo.launch(theme="monochrome")
+demo.launch(theme="base")
