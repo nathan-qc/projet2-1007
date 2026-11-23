@@ -18,7 +18,7 @@ class Dataset:
             self.col_types = col_types
         else:
             self.col_types = {"cat" : ['type_1', 'type_2'],
-                              "num" : ['hp', 'atk', 'def', 'spa', 'spd', 'spe', 'status', 'power', 'coverage'],
+                              "num" : ['dex', 'hp', 'atk', 'def', 'spa', 'spd', 'spe', 'status', 'power', 'coverage'],
                               "target" : "tier"}
 
         self.labeler = LabelEncoder()
@@ -48,9 +48,3 @@ class Dataset:
     @property
     def target(self):
         return self.col_types["target"]
-
-
-if __name__ == "__main__":
-    d = Dataset("dataset2")
-    print(d.X)
-    print(d.relabel(d.y))
