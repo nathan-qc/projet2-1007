@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 
+from sklearn.preprocessing import LabelEncoder
+
 class Dataset:
     
     def __init__(self, name, col_types = None):
@@ -19,14 +21,21 @@ class Dataset:
                               "num" : ['hp', 'atk', 'def', 'spa', 'spd', 'spe', 'status', 'power', 'coverage'],
                               "target" : "tier"}
 
+        self.labeler = LabelEncoder()
+        self.labeler.fit(self.df[self.target])
+
+
     @property
     def X(self):
-        X_cols = self.col_types["cat"] + self.col_types["num"]
+        X_cols = self.cats + self.nums
         return self.df[X_cols]
 
     @property
     def y(self):
-        return self.df[self.col_types["target"]]
+        return self.labeler.transform(self.df[self.target])
+
+    def relabel(self, table):
+        return self.labeler.inverse_transform(table)
 
     @property
     def nums(self):
@@ -35,3 +44,13 @@ class Dataset:
     @property
     def cats(self):
         return self.col_types["cat"]
+
+    @property
+    def target(self):
+        return self.col_types["target"]
+
+
+if __name__ == "__main__":
+    d = Dataset("dataset2")
+    print(d.X)
+    print(d.relabel(d.y))
