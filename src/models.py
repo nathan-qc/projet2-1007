@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 from dataset import Dataset
 
@@ -31,7 +31,6 @@ class Model(ABC):
             ("cat", OneHotEncoder(handle_unknown="ignore"), d.cats), # Encodage One-hot pour les types
         ])
 
-        print("YOLO")
 
     def benchmark(self):
         """Retourne une ligne des probabilités de chaque classification pour chaque pokemon, testé avec training/testing 80/20"""
@@ -66,6 +65,12 @@ class Model(ABC):
 
         return {"log_baseline": log_loss_baseline, "log": proba_log_loss, "brier": proba_brier}
 
+    def dump(self, name):
+        self.model.fit(self.d.X, self.d.y)
+        path = os.path.join("modeles", name + ".joblib")
+        dict = {"model": self.model, "le": self.d.labeler}
+        joblib.dump(dict, path)
+
 
 class DumbPredictor(Model):
     """Un modèle trivial pour comparer le succès des autres"""
@@ -87,7 +92,6 @@ class LogisticReg(Model):
         ])
 
 
-
 class RandomForest(Model):
     """Un ensemble de modèles "arbre" afin de prendre la moyenne de ceux-ci"""
     def __init__(self, d: Dataset, params):
@@ -104,5 +108,5 @@ class RandomForest(Model):
 d = Dataset("dataset2")
 r = LogisticReg(d, {})
 
-m = r.metrics()
+m = r.dump("one")
 print(m)
