@@ -50,8 +50,14 @@ Nous avons décidé de consolider certains tiers pour augmenter la taille d'éch
 
 Anything Goes ne contient que 2 pokémons, qui sont bannis en Uber, donc c'est un tier peu pertinent à prédire. Pour les banlist, nous les avons ajouté au tier le plus bas sur l'échelle dans lequel ils sont légaux, afin d'augmenter la taille d'échantillon des tiers.
 
-## L'interface graphique
+## Outils utilisés
 Notre choix de technologie pour l'interface graphique est Gradio [7]. 
+
+## Pages consultées
+
+- La documentation de Gradio [7]
+- La documentation de scikit-learn [8]
+- La documentation de pandas [9]
 
 ## Outil de fonctions complexes
 TODO
@@ -67,4 +73,6 @@ TODO
 [4] Smogon. (2026) Pokemon. [En ligne]. Disponible: https://www.smogon.com/dex/sv/pokemon/ (consulté le 11 novembre 2026)\
 [5] Marty. (2026) Usage-Based Tier Update for October 2026 (November @ #19). [En ligne]. Disponible: https://www.smogon.com/forums/threads/usage-based-tier-update-for-october-2026-november-19.3789169/ (consulté le 23 novembre 2026)\
 [6] P. Hallet. (2023) LICENSE.md. [En ligne]. Disponible: https://github.com/PokeAPI/pokeapi/blob/master/LICENSE.md (consulté le 23 novembre 2026)\
-[7] Gradio. (2026) API Reference. [En ligne]. Disponible: https://gradio.app/docs (consulté le 23 novembre 2026)
+[7] Gradio. (2026) API Reference. [En ligne]. Disponible: https://gradio.app/docs (consulté le 23 novembre 2026)\
+[8] scikit learn. (2026) API Reference. [En ligne]. Disponible: https://scikit-learn.org/stable/api/index.html (consulté le 23 novembre 2026)
+[9] pandas. (2026) pandas documentation. [En ligne]. Disponible: https://pandas.pydata.org/docs/ (consulté le 23 novembre 2026)
