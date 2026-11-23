@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import matplotlib.pyplot as plt
 
 tier_conversions = {
     'ag': 'uber',
@@ -17,14 +16,9 @@ def unify_tier(tier):
     except KeyError:
         return tier
 
-df = pd.read_csv(os.path.join("donnees", "dataset.csv"), index_col=False)
+def merge_tiers():
+    df = pd.read_csv(os.path.join("donnees", "dataset.csv"), index_col=False)
 
-df['tier'] = df['tier'].map(unify_tier)
+    df['tier'] = df['tier'].map(unify_tier)
 
-df.to_csv(os.path.join("donnees", "dataset2.csv"))
-
-# groupes = df.groupby('tier')
-# trend = groupes.size()
-# plt.bar(range(15), trend)
-# plt.title("tiers")
-# plt.show()
+    df.to_csv(os.path.join("donnees", "dataset2.csv"))

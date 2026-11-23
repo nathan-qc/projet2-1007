@@ -64,15 +64,16 @@ def build_row(mon):
 
     return (name, dex_id, type_1, type_2, hit_points, attack, defense, special_attack, special_defense, speed, coverage_count, max_power, n_status_moves)
 
-dataset = list()
+def append_tiers():
+    dataset = list()
 
-for mon in DEX:
-    
-    if mon["name"] in TIERS:
-        row = build_row(mon) + (TIERS[mon["name"]],)
-        dataset.append(row)
+    for mon in DEX:
+        
+        if mon["name"] in TIERS:
+            row = build_row(mon) + (TIERS[mon["name"]],)
+            dataset.append(row)
 
-with open(os.path.join(os.getcwd(), "dataset.csv"), "w", encoding="utf-8") as f:
-    w = csv.writer(f)
-    w.writerow(("name", "id", "type_1", "type_2", "hp", "atk", "def", "spa", "spd", "spe", "coverage", "power", "status", "tier"))
-    w.writerows(dataset)
+    with open(os.path.join(os.getcwd(), "dataset.csv"), "w", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(("name", "id", "type_1", "type_2", "hp", "atk", "def", "spa", "spd", "spe", "coverage", "power", "status", "tier"))
+        w.writerows(dataset)
