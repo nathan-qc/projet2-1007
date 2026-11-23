@@ -27,16 +27,10 @@ def error_popup(message):
     gr.Warning(message)
 
 def predict_button_clicked(id, type_1, type_2, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status):
-    try:
-        id = int(id)
-    except:
-        error_popup("Saisie invalide: numéro de pokédex")
-        return ""
-    try:
-        status = int(status)
-    except:
-        error_popup("Saisie invalide: nombre d'attaques de statut connues")
-        return ""
+    for input in [id, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status]:
+        if not type(input) == type(0):
+            error_popup(f"Saise invalide, tous les saisies numériques doivent être des entiers non-négatifs")
+            return ""
        
     type_1 = TYPES[type_1]
     type_2 = TYPES[type_2]
