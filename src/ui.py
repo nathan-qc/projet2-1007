@@ -23,9 +23,21 @@ TYPES = {
         "Fée": "fairy"
 }
 
+def error_popup(message):
+    gr.Warning(message)
 
-
-def predict_button_clicked(id, type_1, type_2, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status):    
+def predict_button_clicked(id, type_1, type_2, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status):
+    try:
+        id = int(id)
+    except:
+        error_popup("Saisie invalide: numéro de pokédex")
+        return ""
+    try:
+        status = int(status)
+    except:
+        error_popup("Saisie invalide: nombre d'attaques de statut connues")
+        return ""
+       
     type_1 = TYPES[type_1]
     type_2 = TYPES[type_2]
 
