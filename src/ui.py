@@ -1,6 +1,7 @@
 import gradio as gr
 import os, pandas, matplotlib
 from engine import Engine
+from historique import hist_add_row, get_hist
 
 TYPES = {
         "Aucun": "none",
@@ -44,7 +45,7 @@ def predict_button_clicked(id:int, type_1:str, type_2:str, hp:int, attack:int, d
 
     tier, confidence, fig = e.confidences(id, type_1, type_2,  hp, attack, defense, special_attack, special_defense, speed, coverage, power, status)
 
-
+    hist_add_row(id, type_1, type_2, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status, tier)
 
     return f"{tier.upper()} ({confidence*100:.2f}%)", fig
 
