@@ -89,6 +89,7 @@ def launch_ui()->None:
                     coverage = gr.Slider(label="Nombre de types d'attaque uniques", minimum=0, maximum=18, step=1)
                     power = gr.Slider(label="Puissance d'attaque la plus élevée", minimum=0, maximum=250, step=1)
                     status = gr.Number(label="Nombre d'attaques de statut connues")
+                    gr.Markdown("![Graphique](https://raw.githubusercontent.com/nathan-qc/projet2-1007/58e2777a1f10b6de0dc625475b145aedcf92390e/graphiques/qualit%C3%A9s.png)")
             with gr.Column():
                 hp = gr.Slider(label="PV", step=1, maximum=255)
                 attack = gr.Slider(label="Attaque", step=1, maximum=255)
