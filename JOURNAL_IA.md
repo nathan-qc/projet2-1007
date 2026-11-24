@@ -16,8 +16,8 @@ Aucune IA n'a été utilisée dans l'organisation en modules et classes
 
 ## UI
 
-[Nate fill this out pls]
+Quand j'essayait de débugger je faisait des recherches google. J'essayait des fois les réponses de l'IA de google dans la recherche mais j'ai rien retenu car ca ne marchait pas.
 
 ## Tests
 
-[Nate fill this out pls]
+Quand j'essayait de débugger je faisait des recherches google. J'essayait des fois les réponses de l'IA de google dans la recherche mais j'ai rien retenu car ca ne marchait pas.
