@@ -35,14 +35,15 @@ class Model(ABC):
 
     @abstractmethod
     def _init_model(self):
+        """Retourne le modèle de scikit"""
         pass
 
     def benchmark(self):
         """Retourne une ligne des probabilités de chaque classification pour chaque pokemon, testé avec training/testing 80/20"""
+
         # Généré à l'origine à l'aide de Claude
         cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
         proba = cross_val_predict(self.model, self.d.X, self.d.y, cv=cv, method="predict_proba")
-        # Fin de généré à l'aide de Claude
 
         return proba
 
@@ -58,6 +59,7 @@ class Model(ABC):
         plt.show()
 
     def metrics(self):
+        """Fait quelques évaluationss de performance du modèle"""
         proba = self.benchmark()
 
         # Généré à l'origine à l'aide de Claude
@@ -70,7 +72,8 @@ class Model(ABC):
 
         return {"log_baseline": log_loss_baseline, "log": proba_log_loss, "brier": proba_brier}
 
-    def dump(self, name):
+    def dump(self, name: str):
+        """Entraine une version finale du modele et la sauvegarde dans modeles/[name]"""
         self.model.fit(self.d.X, self.d.y)
         path = os.path.join("modeles", name + ".joblib")
         dict = {"model": self.model, "le": self.d.labeler}
@@ -85,7 +88,7 @@ class DumbPredictor(Model):
 
 
 class LogisticReg(Model):
-    """Un modèle linéaire pour comparer"""
+    """Un modèle de régression logistique"""
 
     def _init_model(self):
         # Généré à l'origine à l'aide de Claude
@@ -97,8 +100,8 @@ class LogisticReg(Model):
 
 class RandomForest(Model):
     """Un ensemble de modèles "arbre" afin de prendre la moyenne de ceux-ci"""
-    def _init_model(self):
 
+    def _init_model(self):
         # Généré à l'origine à l'aide de Claude
         base = Pipeline([
             ("pre", self.pre),
