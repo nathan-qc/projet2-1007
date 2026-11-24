@@ -21,7 +21,7 @@ import joblib
 
 class Model(ABC):
 
-    def __init__(self, d: Dataset, params):
+    def __init__(self, d: Dataset):
         self.d = d
 
         # Généré à l'origine à l'aide de Claude
@@ -31,6 +31,11 @@ class Model(ABC):
             ("cat", OneHotEncoder(handle_unknown="ignore"), d.cats), # Encodage One-hot pour les types
         ])
 
+        self.model = self._init_model()
+
+    @abstractmethod
+    def _init_model(self):
+        pass
 
     def benchmark(self):
         """Retourne une ligne des probabilités de chaque classification pour chaque pokemon, testé avec training/testing 80/20"""
@@ -48,7 +53,7 @@ class Model(ABC):
         proba["tiers"] = self.d.y
         proba = proba.sort_values("tiers") # Trier afin que les lignes se regroupent par tier voulu
 
-        plt.imshow(proba, aspect="auto")
+        plt.imshow(proba.drop("tiers", axis=1), aspect="auto")
         plt.colorbar(label='valeur')
         plt.show()
 
@@ -82,11 +87,9 @@ class DumbPredictor(Model):
 class LogisticReg(Model):
     """Un modèle linéaire pour comparer"""
 
-    def __init__(self, d: Dataset, params):
-        super().__init__(d, params)
-
+    def _init_model(self):
         # Généré à l'origine à l'aide de Claude
-        self.model = Pipeline([
+        return Pipeline([
             ("pre", self.pre),
             ("clf", LogisticRegression(C=1.0, max_iter=2000)),
         ])
@@ -94,19 +97,19 @@ class LogisticReg(Model):
 
 class RandomForest(Model):
     """Un ensemble de modèles "arbre" afin de prendre la moyenne de ceux-ci"""
-    def __init__(self, d: Dataset, params):
-        super().__init__(d, params)
+    def _init_model(self):
 
         # Généré à l'origine à l'aide de Claude
         base = Pipeline([
             ("pre", self.pre),
             ("clf", RandomForestClassifier(n_estimators=300, min_samples_leaf=3, random_state=0, max_depth=3)),
         ])
-        self.model = CalibratedClassifierCV(base, method="sigmoid", cv=5)
+        return CalibratedClassifierCV(base, method="sigmoid", cv=5)
 
 
-d = Dataset("dataset2")
-r = LogisticReg(d, {})
-
-m = r.dump("one")
-print(m)
+if __name__ == "__main__":
+    d = Dataset("dataset2")
+    l = LogisticReg(d)
+    l.dump("logistic")
+    f = RandomForest(d)
+    f.dump("forest")

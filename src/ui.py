@@ -40,7 +40,7 @@ def predict_button_clicked(id:int, type_1:str, type_2:str, hp:int, attack:int, d
     type_1 = TYPES[type_1]
     type_2 = TYPES[type_2]
 
-    e = Engine("two")
+    e = Engine("forest")
 
     tier, confidence, fig = e.confidences(id, type_1, type_2,  hp, attack, defense, special_attack, special_defense, speed, coverage, power, status)
 
