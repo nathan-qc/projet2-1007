@@ -25,7 +25,7 @@ def dump_pokemon(ids: list = []) -> None:
             api_dump.append(dict)
             time.sleep(SELF_RATE_LIMIT) # PokéAPI ne rate limit pas donc on essaye d'être gentils
     except:
-        pass
+        print("Aborted dump")
 
     with open(os.path.join(os.getcwd(), OUTPUT_FILEPATH), "w", encoding="utf-8") as f:
         json.dump(api_dump, f, indent=2)
@@ -46,7 +46,7 @@ def dump_moves(ids: list = []) -> None:
             # Information TRÈS volumineuse pas nécessaire
             dict.pop("learned_by_pokemon")
     except:
-        pass
+        print("Aborted dump")
 
     with open(os.path.join(os.getcwd(), OUTPUT_FILEPATH), "w", encoding="utf-8") as f:
         json.dump(api_dump, f, indent=2)

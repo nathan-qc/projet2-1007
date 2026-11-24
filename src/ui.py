@@ -1,7 +1,7 @@
 import gradio as gr
 import os, pandas, matplotlib
 from engine import Engine
-from historique import hist_add_row, get_hist
+from historique import hist_add_row
 
 TYPES = {
         "Aucun": "none",
