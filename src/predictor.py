@@ -4,6 +4,7 @@ import os
 
 class Predictor:
     def __init__(self, name):
+
         path = os.path.join("modeles", name + ".joblib")
         dict = joblib.load(path)
 
@@ -11,6 +12,7 @@ class Predictor:
         self.le = dict["le"]
 
     def predict_tier(self, X):
+        """Prend un tableau de données de Pokemon en entrée et retourne les probabilité quil soit dans chaque tier"""
         return self.model.predict_proba(X)
 
     

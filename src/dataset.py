@@ -4,6 +4,7 @@ import os
 from sklearn.preprocessing import LabelEncoder
 
 class Dataset:
+    """Une classe qui représente un dataset utilisé pour entrainer et tester les modèles"""
     
     def __init__(self, name, col_types = None):
 
@@ -27,24 +28,30 @@ class Dataset:
 
     @property
     def X(self):
+        """Les données d'entrée du dataset, à utiliser dans les prédictions"""
         X_cols = self.cats + self.nums
         return self.df[X_cols]
 
     @property
     def y(self):
+        """La colonne cible du dataset, à utiliser afin d'entrainer et tester les modeles."""
         return self.labeler.transform(self.df[self.target])
 
     def relabel(self, table):
+        """Méthode d'aide pour réétiqueter les tiers d'une liste"""
         return self.labeler.inverse_transform(table)
 
     @property
     def nums(self):
+        """La liste des noms des colonnes indépendantes qui ont des données numériques"""
         return self.col_types["num"]
 
     @property
     def cats(self):
+        """La liste des noms des colonnes indépendantes qui ont des données qualitatives"""
         return self.col_types["cat"]
 
     @property
     def target(self):
+        """Le nom de la colonne cible"""
         return self.col_types["target"]

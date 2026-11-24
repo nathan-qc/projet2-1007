@@ -3,10 +3,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 class Engine():
+    """Un wrapper autour d'un Predictor avec une seule méthode, confidences, qui est utilisée pour l'affichage des résultats"""
     def __init__(self, name):
         self.p = Predictor(name)
 
     def confidences(self, dex, type_1, type_2, hp, atk, defense, spa, spd, spe, coverage, power, status):
+        """À utiliser par le UI. Avec les données d'un pokemon en entrée, ceci retourne le tier prédit ainsi que la confiance en celui-ci, en plus d'une figure matplotlib représentant les autre option."""
 
         X = pd.DataFrame(
             [[dex, type_1, type_2, hp, atk, defense, spa, spd, spe, coverage, power, status]],
