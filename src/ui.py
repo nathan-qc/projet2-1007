@@ -1,5 +1,5 @@
 import gradio as gr
-import os, pandas
+import os, pandas, matplotlib
 from engine import Engine
 
 TYPES = {
@@ -24,10 +24,14 @@ TYPES = {
         "Fée": "fairy"
 }
 
-def error_popup(message):
+def error_popup(message:str)->None:
+    """Affiche un message d'erreur
+    """
     gr.Warning(message)
 
-def predict_button_clicked(id, type_1, type_2, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status):
+def predict_button_clicked(id:int, type_1:str, type_2:str, hp:int, attack:int, defense:int, special_attack:int, special_defense:int, speed:int, coverage:int, power:int, status:int)->tuple[str, matplotlib.figure]:
+    """Vérifie les entrées, puis renvoie la prédiction en fonction des variables données
+    """
     for input in [id, hp, attack, defense, special_attack, special_defense, speed, coverage, power, status]:
         if not type(input) == type(0):
             error_popup(f"Saise invalide, tous les saisies numériques doivent être des entiers non-négatifs")
@@ -44,7 +48,9 @@ def predict_button_clicked(id, type_1, type_2, hp, attack, defense, special_atta
 
     return f"{tier.upper()} ({confidence*100:.2f}%)", fig
 
-def launch_ui():
+def launch_ui()->None:
+    """Lance le UI du logiciel
+    """
     # Adapté à partir de l'exemple fourni dans https://www.w3schools.com/css/css_grid.asp
     STYLE = '''
     <style>

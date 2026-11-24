@@ -15,7 +15,9 @@ with open(os.path.join(os.getcwd(), "raw_data", "tiers.csv"), "r", encoding="utf
     TIERS = dict(r)
 
 
-def build_row(mon):
+def build_row(mon:dict)->tuple:
+    """Prend un dict de Pokémon selon le format de PokéAPI et construit la rangée correspondante pour le .csv, sans le tier
+    """
     # Pour notre propre usage, ne sera pas traité par le modèle
     name = mon["name"]
 
@@ -64,7 +66,9 @@ def build_row(mon):
 
     return (name, dex_id, type_1, type_2, hit_points, attack, defense, special_attack, special_defense, speed, coverage_count, max_power, n_status_moves)
 
-def append_tiers():
+def append_tiers()->None:
+    """Construit le dataset et ajoute les tiers à chaque rangée, puis exporte le dataset à un .csv
+    """
     dataset = list()
 
     for mon in DEX:
