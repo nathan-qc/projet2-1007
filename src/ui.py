@@ -1,5 +1,6 @@
 import gradio as gr
 import os, pandas
+from engine import Engine
 
 TYPES = {
         "Aucun": "none",
@@ -35,9 +36,13 @@ def predict_button_clicked(id, type_1, type_2, hp, attack, defense, special_atta
     type_1 = TYPES[type_1]
     type_2 = TYPES[type_2]
 
-    tier = "ou" # Put the model function here
+    e = Engine("two")
 
-    return tier.upper()
+    tier, confidence, fig = e.confidences(id, type_1, type_2,  hp, attack, defense, special_attack, special_defense, speed, coverage, power, status)
+
+
+
+    return f"{tier.upper()} ({confidence*100:.2f}%)", fig
 
 def launch_ui():
     # Adapté à partir de l'exemple fourni dans https://www.w3schools.com/css/css_grid.asp
@@ -85,24 +90,11 @@ def launch_ui():
                 special_defense = gr.Slider(label="Defense spéciale", step=1, maximum=255)
                 speed = gr.Slider(label="Vitesse", step=1, maximum=255)
             with gr.Column():
-                output = gr.Textbox(label="Tier Smogon", interactive=False)
                 predict_button = gr.Button("Prédire tier Smogon")
-                predict_button.click(fn=predict_button_clicked, outputs=output, api_name="predict_tier", inputs=[
-                    id,
-                    type_1,
-                    type_2,
-                    hp,
-                    attack,
-                    defense,
-                    special_attack,
-                    special_defense,
-                    speed,
-                    coverage,
-                    power,
-                    status
-                ])
-                @gr.render(inputs=output)
-                def show_tiermates(tier):
+                tier_box = gr.Textbox(label="Tier Smogon", interactive=False)
+                @gr.render(inputs=tier_box)
+                def show_tiermates(tier_confidence):
+                    tier = tier_confidence.split(" ")[0]
                     if tier != "":
                         tiermates_dataframe = dataset[dataset["tier"] == tier.lower()].sample(n=3)
                         id_1, id_2, id_3 = [id for id in tiermates_dataframe["id"]]
@@ -124,5 +116,20 @@ def launch_ui():
                         </html>
                         '''
                         gr.HTML(tiermates_html)
+                figure = gr.Plot()
+                predict_button.click(fn=predict_button_clicked, outputs=[tier_box, figure], api_name="predict_tier", inputs=[
+                                    id,
+                                    type_1,
+                                    type_2,
+                                    hp,
+                                    attack,
+                                    defense,
+                                    special_attack,
+                                    special_defense,
+                                    speed,
+                                    coverage,
+                                    power,
+                                    status
+                                ])
 
     demo.launch(theme="base")
