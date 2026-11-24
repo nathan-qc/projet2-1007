@@ -31,7 +31,8 @@ innaccurates = list(zip(*[c[0:2] for c in confidences if not c[2]]))
 
 # print(transpose[2])
 
-plt.scatter(accurates[1], accurates[0], c="green")
-plt.scatter(innaccurates[1], innaccurates[0], c="red")
+plt.scatter(d.labeler.inverse_transform(accurates[1]), accurates[0], c="green")
+plt.scatter(d.labeler.inverse_transform(innaccurates[1]), innaccurates[0], c="red")
+plt.title("Qualité des prédictions selon le tier véritable")
 
-plt.show()
+plt.savefig("graphiques/qualités.png")
