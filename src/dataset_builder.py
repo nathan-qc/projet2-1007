@@ -1,15 +1,13 @@
 import json, os, csv
+import merge_tiers
 
-with open(os.path.join(os.getcwd(), "raw_data", "moves.json"), "r", encoding="utf-8") as f:
+with open(os.path.join("raw_data", "moves.json"), "r", encoding="utf-8") as f:
     MOVES: dict = json.load(f)
 
-with open(os.path.join(os.getcwd(), "raw_data", "0001-1025.json"), "r", encoding="utf-8") as f:
+with open(os.path.join("raw_data", "dex.json"), "r", encoding="utf-8") as f:
     DEX: dict = json.load(f)
 
-with open(os.path.join(os.getcwd(), "raw_data", "10001-10326.json"), "r", encoding="utf-8") as f:
-    DEX += json.load(f)
-
-with open(os.path.join(os.getcwd(), "raw_data", "tiers.csv"), "r", encoding="utf-8") as f:
+with open(os.path.join("donnees", "tiers.csv"), "r", encoding="utf-8") as f:
     r = csv.reader(f)
     next(r)             # éliminer l'en-tête
     TIERS = dict(r)
@@ -66,7 +64,7 @@ def build_row(mon:dict)->tuple:
 
     return (name, dex_id, type_1, type_2, hit_points, attack, defense, special_attack, special_defense, speed, coverage_count, max_power, n_status_moves)
 
-def append_tiers()->None:
+def append_tiers(path_out: str)->None:
     """Construit le dataset et ajoute les tiers à chaque rangée, puis exporte le dataset à un .csv
     """
     dataset = list()
@@ -77,7 +75,11 @@ def append_tiers()->None:
             row = build_row(mon) + (TIERS[mon["name"]],)
             dataset.append(row)
 
-    with open(os.path.join(os.getcwd(), "dataset.csv"), "w", encoding="utf-8") as f:
+    with open(path_out, "w", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(("name", "id", "type_1", "type_2", "hp", "atk", "def", "spa", "spd", "spe", "coverage", "power", "status", "tier"))
         w.writerows(dataset)
+
+if __name__ == "__main__":
+    append_tiers(os.path.join("donnees", "dataset3.csv"))
+    merge_tiers.merge_tiers(os.path.join("donnees", "dataset3.csv"), os.path.join("donnees", "dataset6.csv"))

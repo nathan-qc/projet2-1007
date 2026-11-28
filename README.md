@@ -50,6 +50,9 @@ Nous avons décidé de consolider certains tiers pour augmenter la taille d'éch
 
 Anything Goes ne contient que 2 pokémons, qui sont bannis en Uber, donc c'est un tier peu pertinent à prédire. Pour les banlist, nous les avons ajouté au tier le plus bas sur l'échelle dans lequel ils sont légaux, afin d'augmenter la taille d'échantillon des tiers.
 
+### Génération du dataset
+Afin de générer le dataset localement, le fichier "get_api_dump.py" doit être éxécuté à complétion. Dû à la nature Web de la chose, cela pourrait prendre quelques essais. Une fois que cela est fait, le fichier dataset_builder est éxécuté et génère les fichiers du dataset, utilisé dans le reste de l'application.
+
 ## Outils utilisés
 Notre choix de technologie pour l'interface graphique est Gradio [7]. 
 
@@ -60,7 +63,9 @@ Notre choix de technologie pour l'interface graphique est Gradio [7].
 - La documentation de pandas [9]
 
 ## Outil de fonctions complexes
-TODO
+
+Classes abstraites
+: Une classe abstraite "Model" est créée, afin de laisser les deux modèles partager la majorité de leur comportement.
 
 ## Couverture
 TODO

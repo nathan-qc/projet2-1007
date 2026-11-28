@@ -18,11 +18,11 @@ def unify_tier(tier:str)->str:
     except KeyError:
         return tier
 
-def merge_tiers()->None:
+def merge_tiers(path_in: str, path_out: str)->None:
     """Ouvre le database et applique tout les consolidations de tier
     """
-    df = pd.read_csv(os.path.join("donnees", "dataset.csv"), index_col=False)
+    df = pd.read_csv(path_in, index_col=False)
 
     df['tier'] = df['tier'].map(unify_tier)
 
-    df.to_csv(os.path.join("donnees", "dataset2.csv"))
+    df.to_csv(path_out)
