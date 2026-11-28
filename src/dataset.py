@@ -25,6 +25,8 @@ class Dataset:
         self.labeler = LabelEncoder()
         self.labeler.fit(self.df[self.target])
 
+    def __len__(self):
+        return len(self.df)
 
     @property
     def X(self):

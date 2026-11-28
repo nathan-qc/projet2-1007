@@ -64,11 +64,23 @@ Notre choix de technologie pour l'interface graphique est Gradio [7].
 
 ## Outil de fonctions complexes
 
-Classes abstraites
-: Une classe abstraite "Model" est créée, afin de laisser les deux modèles partager la majorité de leur comportement.
+Concept            | Application 
+-------------------|------
+Classes abstraites | Une classe abstraite "Model" est créée, afin de laisser les deux modèles partager la majorité de leur comportement. 
+Lambda et map()    | Des mapping, soit par le constructeur inclut dans python ou la méthode DataFrame.apply() sont utilisés afin de modifier des données en profondeur dans une structure.
+Requête web        | Pour l'obtention de fiches de Pokemon et de moves, des requêtes sont faites à PokeAPI [3]
+Méthode magique    | Une méthode \_\_len\_\_(self) définie sur une classe définie localement
+
 
 ## Couverture
-TODO
+La perte logarithmique (valeur basse = mieux) des deux versions du modèle, RandomForest et LogisticReg est de 1.2, une faible amélioration vis-à-vis celle de 2.0 pour un modèle trivial hypothétique attribuant à chaque tier une probabilité égale à celle de sa fréquence dans le dataset. Le modèle RandomForest, pour une qualité comparable, se retrouve occuper un fichier près de 500 fois plus volumineux que son pair égal en fonction.
+
+Une piste pouvant nous éclairer sur la cause de cela est que les échecs du modèle RandomForest ne sont pas du tout distribués également parmis les tiers. En effet, la figure ci-dessous démontre cela.
+
+![figure 1](graphiques/qualite.png)
+
+On peut observer que le les seuls tiers pour lesquels des essais à succès sont fait avec un haut degré de certitude sont les LC et les UBERs, les deux divisions les plus extrêmes de Smogon représentées dans le dataset final. Pour le tiering Smogon, généralement les Pokemon aux extrèmes sont vite classés sans trop de discussion au contact de la nouvelle génération, alors que les autres tiers, de OU à ZU sont négociés par le succès et la prévalence compétitive, souvent sujette à des situations relationelles entre les Pokemon membres des tiers. Ce comportement complexe est hors de portée du modèle simple que nous avons eu les moyen d'élaborer, et c'est pourquoi les tiers médians sont plus difficiles à prédire. Enfin, deux tiers sortent du lot un peu sont NFE, qui est décidé par le niveau d'évolution, et ZU, qui est le tier dans lequels les pires Pokemon inadmissibles en LC se retrouvent, deux façons avec moins de variance de classer les Pokemon.
+
 
 ## Références
 
